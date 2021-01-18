@@ -156,29 +156,3 @@ class Input(object):
         max = float(file.readline().splitlines()[0])
         step_size = float(file.readline().splitlines()[0])
         return Input(min, max, step_size, precision)
-
-
-
-
-def test_map():
-    min = 1
-    max = 5
-    step = 1
-    input = Input(min, max, step, 0)
-    assert(input.map(min) == 1)
-    assert(input.map(max) == input.size-2)
-    assert(input.map(min-1) == 0)
-    assert(input.map(max+1) == input.size-1)
-    assert(input.map(1.5) == input.map(2))
-    for i in range(min, max, step):
-        assert(input.map(i) == i)
-    min = -1
-    max = 3
-    step = 0.1
-    input = Input(min, max, step, 1)
-    assert(input.map(min) == 1)
-    assert(input.map(max) == input.size-2)
-    assert(input.map(min-1) == 0)
-    assert(input.map(max+1) == input.size-1)
-    assert(input.map(min+step) == input.map(min) + 1)
-    assert(input.map(min+step*5) == input.map(min) + 5)
