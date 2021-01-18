@@ -236,7 +236,6 @@ def run_DQN_experiments():
     else:
         ID = 0
 
-    #ID = run_experiment(ID, 500, 0.01,  0.99, 'linear', 'mse')
     ID = run_experiment(ID, 3000, 0.001, 0.99, 'linear', 'mse')
     ID = run_experiment(ID, 3000, 0.001, 0.9, 'linear', 'mse')
     ID = run_experiment(ID, 3000, 0.01,  0.99, 'linear', 'mse')
@@ -423,7 +422,6 @@ def run_frozen_lake_experiment(ID, epochs=100, lr=0.01, gamma=0.99, result_x_siz
         for s in range(max_steps):
             action = choose_action(table, state)
             new_state, reward, done, _ = env.step(action)
-            v = table.getValue(state)
             q_new = table.getValue(state)[action] * (1-lr) + lr * (reward + gamma * np.max(table.getValue(new_state)))
             table.setValue(state, action, q_new)
             state = new_state
@@ -483,8 +481,7 @@ def run_cartpole_experiment(ID, epochs=100, lr=0.01, gamma=0.99, result_x_size=1
              QTable.Input(-1, 1, 0.1, 4),
              QTable.Input(-1, 1, 0.1, 4),
              QTable.Input(-1, 1, 0.1, 4)]
-    import DQTable as dqt
-    table = dqt.DQTable(env.action_space.n, model=model)
+    table = QTable.QTable(env.action_space.n, model=model)
     rewards = []
     max_steps = 500
     for e in range(epochs):
@@ -496,7 +493,6 @@ def run_cartpole_experiment(ID, epochs=100, lr=0.01, gamma=0.99, result_x_size=1
             reward = reward  if not done else -10
             q_new = table.getValue(state)[action] * (1-lr) + lr * (reward + gamma * np.max(table.getValue(new_state)))
             table.setValue(state, action, q_new)
-            #table.setValue(state, action, q_new, e < 10)
             state = new_state
             if done:
                 rewards.append(s)
@@ -643,10 +639,10 @@ if __name__ == "__main__":
    
     #agent = load_frozen_lake_agent(16)
     #play_frozen_lake(agent, n=1000, verbose=3)
-    run_DQN_experiments()
-    #run_frozen_lake_experiments()
-    #run_cartpole_experiments()
-    #run_cartpole_experiments()
-    #run_DQN_FrozenLake_experiments()
+    #run_frozen_lake_experiments() # Q-learning FrozenLake
+    #run_DQN_FrozenLake_experiments() # DQN FrozenLake
+    #run_cartpole_experiments() # Q-learning CartPole
+    run_DQN_experiments() # DQN CartPole
+    
     env.close()
     sys.exit(0)
