@@ -1,3 +1,8 @@
+# Kursinio projekto darbas
+# Autorius: Edvardas Novikevičius, Informatika IV k.,
+# Q-mokymo algoritmų taikymas uždaviniams su diskrečiomis būsenų ir veiksmų aibėmis
+#(Q-learning algorithms for tasks with discrete state and action spaces)
+# 2021 m.
 from os import error
 from tokenize import Number
 import numpy as np
